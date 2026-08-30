@@ -12,7 +12,7 @@ const ProductsList = () => {
         const dollarAmount = formatePrice(price);
         return (
           <Link
-            to={`/products${product.id}`}
+            to={`/products/${product.id}`}
             key={product.id}
             className="p-8 rounded-lg flex flex-col sm:flex-row gap-y-4   flex-wrap bg-base-100 shadow-xl hover:shadow-2xl duration-300 group ">
             <img
