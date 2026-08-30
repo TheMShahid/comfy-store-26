@@ -6,7 +6,7 @@ const Login = () => {
     <section className="h-screen grid place-items-center">
       <Form
         method="POST"
-        className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
+        className="card w-75 sm:w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
         <h4 className="text-3xl text-center font-bold">Login</h4>
         <FormInput
           type="email"
