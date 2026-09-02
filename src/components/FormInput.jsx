@@ -1,4 +1,4 @@
-const FormInput = ({ label, name, type, defaultValue }) => {
+const FormInput = ({ label, name, type, defaultValue, size }) => {
   return (
     <fieldset className="fieldset">
       <label className="label capitalize" htmlFor="name">
@@ -8,7 +8,7 @@ const FormInput = ({ label, name, type, defaultValue }) => {
         type={type}
         id="name"
         name={name}
-        className="input"
+        className={`input  ${size}`}
         defaultValue={defaultValue}
       />
     </fieldset>
