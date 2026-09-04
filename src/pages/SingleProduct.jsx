@@ -37,6 +37,7 @@ const SingleProduct = () => {
     company,
     productColor,
     description,
+    amount,
   };
 
   const dispatch = useDispatch();
