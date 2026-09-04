@@ -6,6 +6,11 @@ const themes = {
   dark: "dark",
 };
 
+const getUserFromLocalStorage = () => {
+  const user = JSON.parse(localStorage.getItem("user")) || null;
+  return user;
+};
+
 const getThemeFromLocalStorage = () => {
   const theme = localStorage.getItem("theme") || themes.light;
   document.documentElement.setAttribute("data-theme", theme);
@@ -13,7 +18,8 @@ const getThemeFromLocalStorage = () => {
 };
 
 const initialState = {
-  user: { username: "themshahid" },
+  // user: { username: "themshahid" },
+  user: getUserFromLocalStorage(),
   theme: getThemeFromLocalStorage(),
 };
 
@@ -22,9 +28,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (state, action) => {
-      console.log("login");
+      // console.log(action.payload);
+      const user = { ...action.payload.user, token: action.payload.jwt };
+      state.user = user;
+      localStorage.setItem("user", JSON.stringify(state));
     },
-    logoutUser: (state, action) => {
+    logoutUser: (state) => {
       state.user = null;
       localStorage.removeItem("user");
       toast.success("Logged out successfully");

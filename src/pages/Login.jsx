@@ -1,7 +1,53 @@
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect, useNavigate } from "react-router-dom";
 import { FormInput, SubtmitBtn } from "../components";
+import { customFetch } from "../utils";
+import { loginUser } from "../features/user/userSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
+export const action =
+  (store) =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await customFetch.post("/auth/local", data);
+      store.dispatch(loginUser(response.data));
+      toast.success("logged in successfully");
+      return redirect("/");
+      // return null
+    } catch (error) {
+      const errorMessage =
+        error?.response?.data?.error?.message ||
+        "please double check your credentials";
+      toast.error(errorMessage);
+      return null;
+    }
+  };
 
 const Login = () => {
+  // for guest user
+  const dispatch = useDispatch();
+  const navigagte = useNavigate();
+
+  const loginAsGuestUser = async () => {
+    try {
+      const response = await customFetch.post("/auth/local", {
+        identifier: "test@test.com",
+        password: "secret",
+      });
+      dispatch(loginUser(response.data));
+      toast.success("welcome guest user");
+      navigagte("/");
+    } catch (error) {
+      // const errorMessage = error?.response?.data?.error?.message;
+      // toast.error(errorMessage);
+      console.log(error);
+      toast.error("guest user login error. please try again");
+    }
+  };
+
   return (
     <section className="h-screen grid place-items-center">
       <Form
@@ -12,18 +58,21 @@ const Login = () => {
           type="email"
           label="email"
           name="identifier"
-          defaultValue="test@test.com"
+          // defaultValue="test@test.com"
         />
         <FormInput
           type="password"
           label="password"
           name="password"
-          defaultValue="secret"
+          // defaultValue="secret"
         />
         <div className="mt-4">
           <SubtmitBtn text="login" />
         </div>
-        <button type="button" className="btn uppercase btn-secondary btn-block">
+        <button
+          type="button"
+          className="btn uppercase btn-secondary btn-block"
+          onClick={loginAsGuestUser}>
           guest user
         </button>
         <p className="text-center">
