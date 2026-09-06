@@ -18,9 +18,13 @@ export const action =
       return redirect("/");
       // return null
     } catch (error) {
+      // console.log(error?.response);
+
       const errorMessage =
         error?.response?.data?.error?.message ||
         "please double check your credentials";
+      // console.log(errorMessage);
+
       toast.error(errorMessage);
       return null;
     }
